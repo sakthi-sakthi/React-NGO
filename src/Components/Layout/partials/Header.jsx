@@ -194,7 +194,7 @@ function Header() {
                                     </li>
                                     <li className="nav-item">
                                         <Link to={"contact-us"} className="nav-link">
-                                            Contact US
+                                            Contact Us
                                         </Link>
                                     </li>
                                 </ul>

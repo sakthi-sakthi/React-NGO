@@ -13,7 +13,6 @@ const AppRouter = () => {
                 <Route path="/*" element={<Layout />}>
                     <Route path="contact-us" element={<Contact />} />
                     <Route path="photos" element={<Photos />} />
-
                 </Route>
             </Routes>
         </BrowserRouter>
