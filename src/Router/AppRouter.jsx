@@ -23,7 +23,6 @@ const AppRouter = () => {
                     <Route path="gccteam" element={<Gccteam />} />
                     <Route path="lccteam" element={<Lccteam />} />
                     <Route path="nccteam" element={<Nccteam />} />
-
                 </Route>
             </Routes>
         </BrowserRouter>

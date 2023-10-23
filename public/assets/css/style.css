@@ -459,11 +459,10 @@ header .small-menu {
 }
 
 .slider-captions {
-    position: absolute;
-    bottom: 15rem;
-    text-align: center;
-    right: -23rem;
-
+  position: absolute;
+  bottom: 15rem;
+  text-align: center;
+  right: -23rem;
 }
 
 @media screen and (max-width: 1050px) {
@@ -1051,4 +1050,9 @@ header .small-menu {
 }
 .slider-img-height {
   height: calc(100vh - 142px);
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }

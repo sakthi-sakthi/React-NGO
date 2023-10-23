@@ -66,12 +66,12 @@ function Footer() {
                                 Phone: +91 9159669599 <br />
                                 Email:
                                 <a href="mailto:boscosoft@gmail.com" className="">
-                                    boscosoft@gmail.com
+                                    &nbsp;boscosoft@gmail.com
                                 </a>
                                 <br />
                                 Web:
-                                <a href="www.boscosofttech.com" className="" target="_blank">
-                                    www.boscosofttech.com
+                                <a href="https://boscosofttech.com/" className="" target="_blank" rel="noreferrer">
+                                    &nbsp;www.boscosofttech.com
                                 </a>
                             </address>
                         </div>

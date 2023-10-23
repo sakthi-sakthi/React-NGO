@@ -5,6 +5,8 @@ import { Form } from 'react-bootstrap';
 import Axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Row, Col } from 'react-bootstrap';
+import ApiUrl from '../../Components/API/Api';
 
 function Contact() {
     const initialFormData = {
@@ -27,14 +29,14 @@ function Contact() {
             toast.error('Name should contain at least 3 letters');
         } else if (/[^A-Za-z\s]/.test(name)) {
             toast.error('Name should only contain letters');
-        } else if (!email) {
-            toast.error('Email is required');
-        } else if (!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)) {
-            toast.error('Email is not valid');
         } else if (!mobile) {
             toast.error('Mobile Number is required');
         } else if (!/^\d{10}$/.test(mobile)) {
             toast.error('Mobile Number must be 10 digits and contain only numbers');
+        } else if (!email) {
+            toast.error('Email is required');
+        } else if (!/^[A-Za-z0-9]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(email)) {
+            toast.error('Email is not valid');
         } else if (!message) {
             toast.error('Message is required');
         } else {
@@ -48,7 +50,7 @@ function Contact() {
                 message,
             };
 
-            Axios.post('http://127.0.0.1:8000/api/store/contact/', dataToSend)
+            Axios.post(`${ApiUrl }/store/contact/`, dataToSend)
                 .then((response) => {
                     console.log('Form submitted with data:', formData);
                     setFormData(initialFormData);
@@ -104,19 +106,35 @@ function Contact() {
                     <div className="row">
                         <div style={{ padding: 20 }} className="col-sm-7">
                             <h2>Contact Form</h2> <br />
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Group>
-                                    <Form.Label>Name <span style={{ color: "red" }}>*</span></Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter Name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        autoComplete="off"
-                                    />
-                                </Form.Group>
-
+                            <Form onSubmit={handleSubmit} style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', padding: "17px 23px 17px 23px" }}>
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group>
+                                            <Form.Label>Name <span style={{ color: "red" }}>*</span></Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Enter Name"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                autoComplete="off"
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Form.Group>
+                                            <Form.Label>Mobile <span style={{ color: "red" }}>*</span></Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="mobile"
+                                                placeholder="Enter Mobile Number"
+                                                value={formData.mobile}
+                                                onChange={handleChange}
+                                                autoComplete="off"
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
                                 <Form.Group>
                                     <Form.Label>Email <span style={{ color: "red" }}>*</span></Form.Label>
                                     <Form.Control
@@ -128,19 +146,6 @@ function Contact() {
                                         autoComplete="off"
                                     />
                                 </Form.Group>
-
-                                <Form.Group>
-                                    <Form.Label>Mobile <span style={{ color: "red" }}>*</span></Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="mobile"
-                                        placeholder="Enter Mobile Number"
-                                        value={formData.mobile}
-                                        onChange={handleChange}
-                                        autoComplete="off"
-                                    />
-                                </Form.Group>
-
                                 <Form.Group>
                                     <Form.Label>Message <span style={{ color: "red" }}>*</span></Form.Label>
                                     <Form.Control
@@ -153,7 +158,6 @@ function Contact() {
                                         autoComplete="off"
                                     />
                                 </Form.Group>
-
                                 <button type="submit" className="btn btn-primary" disabled={loading}>
                                     {loading ? (
                                         <>
@@ -167,6 +171,7 @@ function Contact() {
                                     )}
                                 </button>
                             </Form>
+
                         </div>
                         <ToastContainer position="top-right" autoClose={3000} />
                         <div className="col-sm-5">

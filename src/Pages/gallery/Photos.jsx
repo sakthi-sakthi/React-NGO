@@ -4,6 +4,8 @@ import ApiUrl from '../../Components/API/Api';
 
 function Photos() {
     const [galleryData, setGalleryData] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [autoPlay, setAutoPlay] = useState(false);
 
     useEffect(() => {
         const apiUrl = `${ApiUrl}/get/gallery_images`;
@@ -16,26 +18,44 @@ function Photos() {
             });
     }, []);
 
+    const openModal = (index) => {
+        setCurrentIndex(index);
+        const modal = document.getElementById('imageModal');
+        const modalInstance = new window.bootstrap.Modal(modal);
+        modalInstance.show();
+    };
+
+    // Function to go to the next image
+    const nextImage = () => {
+        setCurrentIndex((currentIndex + 1) % galleryData.length);
+    };
+
+    // Function to go to the previous image
+    const prevImage = () => {
+        setCurrentIndex((currentIndex - 1 + galleryData.length) % galleryData.length);
+    };
+
+    // Function to toggle autoplay
+    const toggleAutoPlay = () => {
+        setAutoPlay(!autoPlay);
+    };
+
+    useEffect(() => {
+        let autoPlayInterval;
+
+        if (autoPlay) {
+            autoPlayInterval = setInterval(nextImage, 3000);
+        } else {
+            clearInterval(autoPlayInterval);
+        }
+
+        return () => {
+            clearInterval(autoPlayInterval);
+        };
+    }, );
+
     return (
         <>
-            <div className="page-nav no-margin row">
-                <div className="container">
-                    <div className="row">
-                        <h2>Our Gallery</h2>
-                        <ul>
-                            <li>
-                                {" "}
-                                <a href="/">
-                                    <i className="fas fa-home" /> Home
-                                </a>
-                            </li>
-                            <li>
-                                <i className="fas fa-angle-double-right" /> Gallery
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
             <div id="portfolio" className="gallery">
                 <div className="container">
                     <div className="row">
@@ -46,9 +66,31 @@ function Photos() {
                                     className="img-responsive"
                                     alt=""
                                     style={{ height: '200px' }}
+                                    onClick={() => openModal(index)}
                                 />
                             </div>
                         ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="imageModal" tabIndex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <img
+                                src={galleryData[currentIndex]?.image}
+                                className="img-responsive"
+                                alt=""
+                            />
+                        </div>
+                        <div className="modal-footer">
+                            <button onClick={prevImage} className="btn btn-primary">Prev</button>
+                            <button onClick={nextImage} className="btn btn-primary">Next</button>
+                            <button data-bs-dismiss="modal" onClick={toggleAutoPlay} className="btn btn-primary">
+                                {autoPlay ? <i className="fa fa-pause"></i> : <i className="fa fa-play"></i>}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
