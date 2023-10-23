@@ -7,7 +7,7 @@ function Copyright() {
                 <div className="container">
                     <a href="www.boscosofttech.com/">
                         2023 © All Rights Reserved | Designed and Developed by
-                        <b style={{ color: "#3cc88f" }}>Boscosoft Technologies</b>
+                        <b style={{ color: "#3cc88f" }}> Boscosoft Technologies</b>
                     </a>
                     <span>
                         <a href="/">

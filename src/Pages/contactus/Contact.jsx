@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Form } from 'react-bootstrap';
+import Axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 function Contact() {
     const initialFormData = {
@@ -11,6 +15,7 @@ function Contact() {
     };
 
     const [formData, setFormData] = useState(initialFormData);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,11 +23,13 @@ function Contact() {
 
         if (!name) {
             toast.error('Name is required');
+        } else if (name.length < 3) {
+            toast.error('Name should contain at least 3 letters');
         } else if (/[^A-Za-z\s]/.test(name)) {
             toast.error('Name should only contain letters');
         } else if (!email) {
             toast.error('Email is required');
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
+        } else if (!/^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]+$/.test(email)) {
             toast.error('Email is not valid');
         } else if (!mobile) {
             toast.error('Mobile Number is required');
@@ -31,9 +38,28 @@ function Contact() {
         } else if (!message) {
             toast.error('Message is required');
         } else {
-            console.log('Form submitted with data:', formData);
-            setFormData(initialFormData);
-            toast.success('Form submitted successfully');
+            setLoading(true);
+
+
+            const dataToSend = {
+                name,
+                email,
+                mobile,
+                message,
+            };
+
+            Axios.post('http://127.0.0.1:8000/api/store/contact/', dataToSend)
+                .then((response) => {
+                    console.log('Form submitted with data:', formData);
+                    setFormData(initialFormData);
+                    toast.success('Form submitted successfully');
+                })
+                .catch((error) => {
+                    toast.error('Failed to submit the form: ' + error.message);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
     };
 
@@ -41,6 +67,7 @@ function Contact() {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+
 
     return (
         <>
@@ -77,87 +104,69 @@ function Contact() {
                     <div className="row">
                         <div style={{ padding: 20 }} className="col-sm-7">
                             <h2>Contact Form</h2> <br />
-                            <form onSubmit={handleSubmit}>
-                                {/* Name */}
-                                <div className="row cont-row">
-                                    <div className="col-sm-3">
-                                        <label>Name <span style={{ color: "red" }}>*</span></label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <input
-                                            type="text"
-                                            placeholder="Enter Name"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            className="form-control input-sm"
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                </div>
-                                {/* Email */}
-                                <div className="row cont-row">
-                                    <div className="col-sm-3">
-                                        <label>Email <span style={{ color: "red" }}>*</span></label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            placeholder="Enter Email Address"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            className="form-control input-sm"
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                </div>
-                                {/* Mobile Number */}
-                                <div className="row cont-row">
-                                    <div className="col-sm-3">
-                                        <label>Mobile <span style={{ color: "red" }}>*</span></label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <input
-                                            type="text"
-                                            name="mobile"
-                                            placeholder="Enter Mobile Number"
-                                            value={formData.mobile}
-                                            onChange={handleChange}
-                                            className="form-control input-sm"
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                </div>
-                                {/* Message */}
-                                <div className="row cont-row">
-                                    <div className="col-sm-3">
-                                        <label>Message <span style={{ color: "red" }}>*</span></label>
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <textarea
-                                            rows={5}
-                                            placeholder="Enter Your Message"
-                                            name="message"
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            className="form-control input-sm"
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                </div>
-                                {/* Submit Button */}
-                                <div style={{ marginTop: 10 }} className="row">
-                                    <div style={{ paddingTop: 10 }} className="col-sm-3">
-                                        <label />
-                                    </div>
-                                    <div className="col-sm-8">
-                                        <button className="btn btn-primary btn-sm" type="submit">
-                                            Send Message
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group>
+                                    <Form.Label>Name <span style={{ color: "red" }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter Name"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Email <span style={{ color: "red" }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="email"
+                                        placeholder="Enter Email Address"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Mobile <span style={{ color: "red" }}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="mobile"
+                                        placeholder="Enter Mobile Number"
+                                        value={formData.mobile}
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Message <span style={{ color: "red" }}>*</span></Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={5}
+                                        placeholder="Enter Your Message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        autoComplete="off"
+                                    />
+                                </Form.Group>
+
+                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            <span className="loader">
+                                                <FontAwesomeIcon icon={faSpinner} spin />
+                                            </span>
+                                            &nbsp;Submitting...
+                                        </>
+                                    ) : (
+                                        'Send Message'
+                                    )}
+                                </button>
+                            </Form>
                         </div>
                         <ToastContainer position="top-right" autoClose={3000} />
                         <div className="col-sm-5">

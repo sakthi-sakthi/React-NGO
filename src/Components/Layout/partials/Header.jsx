@@ -88,7 +88,7 @@ function Header() {
                             <div id="menu" className="col-lg-9 col-md-12 d-none d-lg-block nav-col">
                                 <ul className="navbad">
                                     <li className="nav-item active">
-                                        <a href="/" className="nav-link">Home</a>
+                                        <Link to={"/"} className="nav-link">Home</Link>
                                     </li>
                                     <li className="nav-item">
                                         <div className="dropdown">
@@ -109,9 +109,9 @@ function Header() {
                                                 <a className="dropdown-item" href="about_us.html">
                                                     Our Objective
                                                 </a>
-                                                <a className="dropdown-item" href="about_us.html">
+                                                <Link to={"history"} className="dropdown-item">
                                                     Our History
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </li>
@@ -132,15 +132,9 @@ function Header() {
                                                 className="dropdown-menu"
                                                 aria-labelledby="servicesDropdown"
                                             >
-                                                <a className="dropdown-item" href="services.html">
-                                                    GCC Team
-                                                </a>
-                                                <a className="dropdown-item" href="services.html">
-                                                    NCC Team
-                                                </a>
-                                                <a className="dropdown-item" href="services.html">
-                                                    LCC Team
-                                                </a>
+                                                <Link to={"gccteam"} className="dropdown-item">GCC Team</Link>
+                                                <Link to={"lccteam"} className="dropdown-item">LCC Team</Link>
+                                                <Link to={"nccteam"} className="dropdown-item">NCC Team</Link>
                                             </div>
                                         </div>
                                     </li>
@@ -186,7 +180,7 @@ function Header() {
                                                 <Link to={"photos"} className="dropdown-item">
                                                     Photos
                                                 </Link>
-                                                <Link to={""} className="dropdown-item">
+                                                <Link to={"videos"} className="dropdown-item">
                                                     Videos
                                                 </Link>
                                             </div>

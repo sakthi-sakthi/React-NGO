@@ -96,7 +96,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #f76b00;
+  color: #f7a900;
 }
 
 body {
@@ -319,7 +319,6 @@ header .logo {
 header .header-top {
   background-color: #fff;
   border-bottom: 1px solid #d3d7cea6;
-  padding: 7px;
 }
 header .header-top .col-det .ulleft li {
   float: left;
@@ -460,9 +459,11 @@ header .small-menu {
 }
 
 .slider-captions {
-  position: absolute;
-  bottom: 132px;
-  text-align: center;
+    position: absolute;
+    bottom: 15rem;
+    text-align: center;
+    right: -23rem;
+
 }
 
 @media screen and (max-width: 1050px) {
@@ -651,7 +652,7 @@ header .small-menu {
 .about-us .image-part .about-quick-box .about-qcard p {
   font-weight: 600;
   font-size: 1.2rem;
-      color: black;
+  color: black;
 }
 .about-us .image-part .about-quick-box .about-qcard i {
   font-size: 3rem;
@@ -909,7 +910,6 @@ header .small-menu {
 
 /* ===================================== Our Team Starts Here ===================================== */
 .our-team {
-  padding: 50px;
   background-color: #cccccc1c;
 }
 @media screen and (max-width: 940px) {
@@ -1048,4 +1048,7 @@ header .small-menu {
 }
 .card {
   border-radius: 0.7rem;
+}
+.slider-img-height {
+  height: calc(100vh - 142px);
 }
